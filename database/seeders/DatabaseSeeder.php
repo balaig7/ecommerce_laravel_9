@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::create([
             'name' => 'Admin',
-            'email' => 'admin',
+            'email' => 'admin@mail.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin'
         ]);

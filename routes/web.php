@@ -24,14 +24,22 @@ Route::get('/', function () {
 
 /*--------------------Admin Routes----------------------*/
 
-Route::group(['middleware' => 'role:admin'], function () {
-    Route::get('/admin', function () {
+Route::group(['middleware' => 'role:admin','prefix' => 'admin'], function () {
+    
+    Route::get('/', function () {
         return view('admin.index');
     });
     
+    Route::get('/category','CategoryController@index')->name('category');
+
 });
+
 /*--------------------Admin Routes----------------------*/
 
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
