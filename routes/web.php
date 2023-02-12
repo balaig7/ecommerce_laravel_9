@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,13 +25,13 @@ Route::get('/', function () {
 
 /*--------------------Admin Routes----------------------*/
 
-Route::group(['middleware' => 'role:admin','prefix' => 'admin'], function () {
+Route::group(['middleware' => 'role:admin','prefix' => 'admin','namespace' => 'Admin'], function () {
     
     Route::get('/', function () {
-        return view('admin.index');
+        return view('layouts.admin.app');
     });
-    
-    Route::get('/category','CategoryController@index')->name('category');
+    //for performing crud operation
+    Route::resource('category', CategoryController::class);
 
 });
 
@@ -43,3 +44,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

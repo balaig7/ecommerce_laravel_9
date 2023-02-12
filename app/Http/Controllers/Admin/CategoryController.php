@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -15,6 +17,8 @@ class CategoryController extends Controller
     public function index()
     {
         //
+        $parentCategory = Category::all();
+        return view('admin.category.index', compact('parentCategory'));
     }
 
     /**
@@ -22,9 +26,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $category = new stdClass();
+        $action = 'create';
+        $category->name ='';
+        $category->status ='';
+        return view('admin.category.create', compact(['action','category']));
     }
 
     /**
@@ -36,6 +45,14 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+        $createNewCategory = Category::create([
+            'name' => $request->category_name,
+            'status' => $request->status
+        ]);
+
+        if($createNewCategory){
+            return back()->with('status', 'New Category Created!');
+        }
     }
 
     /**
@@ -58,6 +75,10 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
+        $action = 'update';
+
+        return view('admin.category.create', compact('action','category'));
+
     }
 
     /**
@@ -78,7 +99,7 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request,Category $category)
     {
         //
     }
